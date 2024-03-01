@@ -1,12 +1,13 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <nav className="navbar navbar-expand-lg bg-info px-md-5 sticky-top mb-5 ">
+    <nav className="navbar navbar-expand-lg bg-info px-md-5 sticky-top mb-5">
       <div className="container-fluid">
-        <a className="navbar-brand fw-bold " href="#">
-          Ticket Booking
-        </a>
+        <Link className="navbar-brand fw-bold" to="/">
+          Eventiz
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -21,67 +22,36 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="/">
+              <Link className="nav-link" to="/">
                 Home
-              </a>
+              </Link>
             </li>
+
             <li className="nav-item">
-              <a className="nav-link" href="#about">
+              <Link className="nav-link" to="/about">
                 About
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#pricing">
-                Pricing
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#services">
-                Services
-              </a>
-            </li>
-            {/* <li className="nav-item dropdown">
-              <a
-                className="nav-link dropdown-toggle"
-                href="#"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Services
-              </a>
-              <ul className="dropdown-menu">
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Action
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Another action
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Something else here
-                  </a>
-                </li>
-              </ul>
-            </li> */}
-            <li className="nav-item">
-              <a className="nav-link" href="#contact">
+              <Link className="nav-link" to="/contact">
                 Contact
-              </a>
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link className="nav-link" to="/login">
+                Login
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/blog">
-                Blog
-              </a>
+              <Link className="nav-link" to="/register">
+                Register
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/Signup">
-                Sign Up
-              </a>
+              <Link className="nav-link" to="/admin">
+                Admin Panel
+              </Link>
             </li>
           </ul>
         </div>

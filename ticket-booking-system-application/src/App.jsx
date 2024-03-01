@@ -1,6 +1,13 @@
 import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
 import "./App.css";
-import { AdminPanel, Dashboard, Login, Register } from "./pages";
+import {
+  AboutUs,
+  AdminPanel,
+  ContactUs,
+  Dashboard,
+  Login,
+  Register,
+} from "./pages";
 
 function App() {
   return (
@@ -9,7 +16,9 @@ function App() {
         <Route path="/" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/admin-panel" element={<AdminPanel />} />
+        <Route path="/admin" element={<AdminPanel />} />
+        <Route path="/about" element={<AboutUs />} />
+        <Route path="/contact" element={<ContactUs />} />
       </Routes>
     </BrowserRouter>
   );

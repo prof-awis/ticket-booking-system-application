@@ -1,13 +1,14 @@
 import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Footer, Navbar } from "../../components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEnvelope,
   faKey,
   faLock,
   faUser,
+  faUserCog,
 } from "@fortawesome/free-solid-svg-icons";
-import { Navbar, Footer } from "../../components";
-import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const Register = () => {
     email: "",
     password: "",
     repeatPassword: "",
+    role: "user", // Default role is set to user
   });
 
   const [error, setError] = useState(null);
@@ -30,7 +32,8 @@ const Register = () => {
   };
 
   const signupHandler = () => {
-    navigate("/login");
+    // Here you would implement user registration logic
+    navigate("/login"); // Redirect to login page after successful registration
   };
 
   return (
@@ -143,6 +146,27 @@ const Register = () => {
                           </label>
                         </div>
                       </div>
+                      <div className="d-flex flex-row align-items-center mb-4">
+                        <FontAwesomeIcon
+                          icon={faUserCog}
+                          className="me-3 fa-fw fa-lg"
+                        />
+
+                        <div className="form-floating form-outline flex-fill mb-0">
+                          <label className="form-label text-info ">
+                            Select Role:
+                          </label>
+                          <select
+                            className="form-select shadow-none mt-3"
+                            name="role"
+                            value={user.role}
+                            onChange={handleChange}
+                          >
+                            <option value="user">User</option>
+                            <option value="admin">Admin</option>
+                          </select>
+                        </div>
+                      </div>
 
                       {error && (
                         <div className="alert alert-danger" role="alert">
@@ -153,7 +177,7 @@ const Register = () => {
                       <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                         <button
                           type="button"
-                          className="btn btn-primary px-5 py-2 rounded-pill"
+                          className="btn btn-info px-5 py-2 rounded-pill"
                           onClick={signupHandler}
                         >
                           Sign Up
@@ -162,20 +186,13 @@ const Register = () => {
                       <div className="form-check d-flex justify-content-center mb-4">
                         <label className="form-check-label">
                           Already have an account?
-                          <a href="/login" className="px-2">
+                          <Link to="/login" className="px-2">
                             Login
-                          </a>
+                          </Link>
                         </label>
                       </div>
                     </form>
                   </div>
-                  {/* <div className="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
-                    <img
-                      src={draw1}
-                      alt="sample Patient"
-                      className="img-fluid"
-                    />
-                  </div> */}
                 </div>
               </div>
             </div>
