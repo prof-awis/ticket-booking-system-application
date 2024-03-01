@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Footer, Navbar } from "../../components";
+import { EditModal, Footer, Navbar } from "../../components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlusCircle,
@@ -37,6 +37,9 @@ const AdminPanel = () => {
     ticketPriceRegular: 0,
     maxAttendees: 0,
   });
+  
+  const [editEventData, setEditEventData] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   // Function to handle input changes in the modal
   const handleInputChange = (e) => {
@@ -50,7 +53,7 @@ const AdminPanel = () => {
   // Function to handle form submission in the modal
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Add new event to events array (you can implement backend logic here)
+    // Add new event to events array
     const newEvent = {
       id: events.length + 1,
       ...newEventData,
@@ -64,6 +67,38 @@ const AdminPanel = () => {
       ticketPriceRegular: 0,
       maxAttendees: 0,
     });
+  };
+
+  // Function to delete an event
+  const deleteEvent = (id) => {
+    const updatedEvents = events.filter((event) => event.id !== id);
+    setEvents(updatedEvents);
+  };
+
+  const handleEdit = (event) => {
+    setEditEventData(event);
+    setShowEditModal(true); // Set state to show the edit modal
+  };
+
+  const handleEditInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditEventData({
+      ...editEventData,
+      [name]: value,
+    });
+  };
+
+  const handleEditSubmit = (e) => {
+    e.preventDefault();
+    // Update the event in the events array
+    const updatedEvents = events.map((event) =>
+      event.id === editEventData.id ? editEventData : event
+    );
+    setEvents(updatedEvents);
+    // Close the edit modal
+    setShowEditModal(false);
+    // Clear editEventData state
+    setEditEventData(null);
   };
 
   return (
@@ -81,8 +116,7 @@ const AdminPanel = () => {
                 <h5 className="mb-0">Events</h5>
               </div>
               <div className="card-body">
-                {/* Table displaying events */}
-                <div className="table table-responsive ">
+                <div className="table-responsive">
                   <table className="table">
                     <thead>
                       <tr>
@@ -97,14 +131,29 @@ const AdminPanel = () => {
                       {events.map((event) => (
                         <tr key={event.id}>
                           <td>{event.name}</td>
-                          <td>${event.ticketPrice.VIP}</td>
-                          <td>${event.ticketPrice.regular}</td>
+                          <td>
+                            Kshs.
+                            {event.ticketPrice ? event.ticketPrice.VIP : "-"}
+                          </td>
+                          <td>
+                            Kshs.
+                            {event.ticketPrice
+                              ? event.ticketPrice.regular
+                              : "-"}
+                          </td>
+
                           <td>{event.maxAttendees}</td>
                           <td>
-                            <button className="btn btn-warning me-2">
+                            <button
+                              className="btn btn-warning me-2"
+                              onClick={() => handleEdit(event)}
+                            >
                               <FontAwesomeIcon icon={faEdit} /> Edit
                             </button>
-                            <button className="btn btn-danger">
+                            <button
+                              className="btn btn-danger"
+                              onClick={() => deleteEvent(event.id)}
+                            >
                               <FontAwesomeIcon icon={faTrash} /> Delete
                             </button>
                           </td>
@@ -131,33 +180,32 @@ const AdminPanel = () => {
 
       {/* Modal for adding events */}
       <div
-        class="modal fade"
+        className="modal fade"
         id="exampleModal"
-        tabindex="-1"
+        tabIndex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
+        <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">
                 Add Event
               </h5>
               <button
                 type="button"
-                class="btn-close"
+                className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body">
+            <div className="modal-body">
               <form onSubmit={handleSubmit}>
-                {/* Input fields for event details */}
                 <div className="mb-3">
                   <label className="form-label">Event Name</label>
                   <input
                     type="text"
-                    className="form-control shadow-none "
+                    className="form-control"
                     name="name"
                     value={newEventData.name}
                     onChange={handleInputChange}
@@ -168,7 +216,7 @@ const AdminPanel = () => {
                   <label className="form-label">Ticket Price (VIP)</label>
                   <input
                     type="number"
-                    className="form-control shadow-none "
+                    className="form-control"
                     name="ticketPriceVIP"
                     value={newEventData.ticketPriceVIP}
                     onChange={handleInputChange}
@@ -179,7 +227,7 @@ const AdminPanel = () => {
                   <label className="form-label">Ticket Price (Regular)</label>
                   <input
                     type="number"
-                    className="form-control shadow-none "
+                    className="form-control"
                     name="ticketPriceRegular"
                     value={newEventData.ticketPriceRegular}
                     onChange={handleInputChange}
@@ -190,23 +238,22 @@ const AdminPanel = () => {
                   <label className="form-label">Max Attendees</label>
                   <input
                     type="number"
-                    className="form-control shadow-none "
+                    className="form-control"
                     name="maxAttendees"
                     value={newEventData.maxAttendees}
                     onChange={handleInputChange}
                     required
                   />
                 </div>
-
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" className="btn btn-primary">
                   Add Event
                 </button>
               </form>
             </div>
-            <div class="modal-footer">
+            <div className="modal-footer">
               <button
                 type="button"
-                class="btn btn-secondary"
+                className="btn btn-secondary"
                 data-bs-dismiss="modal"
               >
                 Close
@@ -216,6 +263,14 @@ const AdminPanel = () => {
         </div>
       </div>
 
+      {/* Modal for editing  */}
+      <EditModal
+        show={showEditModal}
+        handleClose={() => setShowEditModal(false)}
+        eventData={editEventData}
+        handleInputChange={handleEditInputChange}
+        handleSubmit={handleEditSubmit}
+      />
       <Footer />
     </div>
   );

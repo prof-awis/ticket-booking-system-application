@@ -27,7 +27,7 @@ const EventCard = ({ event }) => {
     <div className="card">
       <img
         src={event.image}
-        class="card-img-top img-fluid "
+        className="card-img-top img-fluid "
         alt="..."
         style={{ height: "25rem" }}
       ></img>
